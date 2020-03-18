@@ -1,0 +1,27 @@
+name: 'Replicate Textile Bucket on Pinata'
+description: 'Greet someone and record the time'
+inputs:
+  cid:  # cid to pin
+    description: 'CID output from Textile Bucket'
+    required: true
+  bucket: # bucket name
+    description: 'Name of Textile Bucket'
+    required: true
+  pinata_key: 
+    description: 'Pinata API Key'
+    required: true
+  pinata_secret: 
+    description: 'Pinata API Secret'
+    required: true
+  pinata_name: 
+    description: 'Optional name of pin request in Pinata'
+    required: false
+  unpin: # unpin previous bucket version
+    description: 'Unpin any older version of the Bucket'
+    required: false
+outputs:
+  pinata_id: # id of pin job
+    description: 'Pinata's ID for the pin job'
+runs:
+  using: 'node12'
+  main: 'index.js'
