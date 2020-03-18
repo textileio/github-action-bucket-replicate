@@ -21,4 +21,4 @@ outputs:
     description: 'Pinata's ID for the pin job'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'

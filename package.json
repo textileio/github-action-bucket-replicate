@@ -2,8 +2,9 @@
   "name": "replicate-bucket-to-pinata",
   "version": "1.0.0",
   "description": "Replicate a Textile Bucket using Pinata",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "ncc build index.js",
     "test": "eslint index.js && jest"
   },
   "keywords": [],
@@ -15,6 +16,7 @@
     "@pinata/sdk": "^1.1.5"
   },
   "devDependencies": {
+    "@zeit/ncc": "^0.21.1",
     "eslint": "^6.3.0",
     "jest": "^24.9.0"
   }
