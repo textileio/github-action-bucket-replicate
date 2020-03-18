@@ -14,6 +14,5 @@ test('replicate bucket', () => {
   const options = getOptions();
 
   expect.assertions(1);
-  return addPin(cid, options)
-    .then(result => expect(result.id).not.toEqual(''));
+  return expect(addPin(cid, options)).resolves.not.toEqual('');
 });
