@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [10.x, 12.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -31,3 +31,20 @@ jobs:
         pinata_key: ${{ secrets.PINATA_KEY }}
         pinata_secret: ${{ secrets.PINATA_SECRET }}
         pinata_name: 'ci-test-pin'
+
+  integration:
+    runs-on: ubuntu-latest
+    name: Runs the real action
+    steps:
+      # To use this repository's private action, you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Bucket Replication
+        uses: ./ # Uses an action in the root directory
+        id: replicate
+        with:
+          cid: 'QmPLxsffBZDY1FY36vhvsMx1Mz4qNSTdeXuMqohVEhQ4Nb'
+          bucket: 'jekyll-ipfs-blog'
+          pinata_key: ${{ secrets.PINATA_KEY }}
+          pinata_secret: ${{ secrets.PINATA_SECRET }}
+          pinata_name: 'ci-test-pin'

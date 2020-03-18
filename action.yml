@@ -16,9 +16,6 @@ inputs:
   pinata_name: 
     description: 'Optional name of pin request in Pinata'
     required: false
-outputs:
-  pinata_id: # id of pin job
-    description: 'Pinata's ID for the pin job'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
