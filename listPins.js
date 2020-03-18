@@ -10,11 +10,7 @@ const listPins = async (bucket, commit, pinata_key, pinata_secret) => {
         bucket: {
             value: bucket,
             op: 'eq'
-          },
-        commit: {
-            value: commit,
-            op: 'ne'
-        }
+          }
       }
     }
   }
