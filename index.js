@@ -26,8 +26,8 @@ try {
     }
   };
 
-  console.log(options)
-  addPin(cid, options, pinata_key, pinata_secret).then((result) => {
+  return addPin(cid, options, pinata_key, pinata_secret).then((result) => {
+    console.log(result);
     return result
   })
 } catch (error) {
