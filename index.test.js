@@ -24,5 +24,6 @@ test('replicate bucket', async () => {
   expect(job).not.toEqual('');
 
   const pinList = await listPins(bucket, commit, pinata_key, pinata_secret);
+  console.log(pinList)
   expect(pinList.length).toEqual(11110)
 });
