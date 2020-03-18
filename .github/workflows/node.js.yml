@@ -30,3 +30,4 @@ jobs:
         bucket: 'jekyll-ipfs-blog'
         pinata_key: ${{ secrets.PINATA_KEY }}
         pinata_secret: ${{ secrets.PINATA_SECRET }}
+        pinata_name: 'ci-test-pin'

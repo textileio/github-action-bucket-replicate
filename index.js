@@ -1,10 +1,11 @@
 const core = require('@actions/core');
-const methods = require('./methods')
+const addPin = require('./addPin');
+const getOptions = require('./getOptions');
 
 const run = async () => {
   const cid = core.getInput('cid');
-  const options = methods.getOptions();
-  methods.addPin(cid, options)
+  const options = getOptions();
+  addPin(cid, options)
   .catch((err) => {
     //handle error here
     console.log(err);

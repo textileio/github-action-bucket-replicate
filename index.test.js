@@ -1,6 +1,7 @@
-const methods = require('./methods');
+const getOptions = require('./getOptions');
 
 test('get options', async() => {
-  const options = methods.getOptions();
-  expect(options.pinataMetadata).toExist();
+  const options = getOptions();
+  expect(options.pinataMetadata).toBeTruthy();
+  expect(options.pinataMetadata.name).toEqual('ci-test-pin');
 });
