@@ -8,7 +8,6 @@ const run = () => {
   const pinata_secret = core.getInput('pinata_secret');
   const options = getOptions();
   addPin(cid, options, pinata_key, pinata_secret).then((result) => {
-    // core.setOutput("pinata_id", result);
     return result
   });
 }
