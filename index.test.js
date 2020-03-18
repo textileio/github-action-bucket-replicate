@@ -9,11 +9,11 @@ test('get options', async() => {
   expect(options.pinataMetadata.keyvalues.bucket).toEqual(bucket);
 });
 
-test('replicate bucket', async() => {
+test('replicate bucket', () => {
   const cid = core.getInput('cid');
   const options = getOptions();
 
   expect.assertions(1);
   return addPin(cid, options)
-    .then(result => expect(result.id).toNotEqual(''));
+    .then(result => expect(result.id).not.toEqual(''));
 });
