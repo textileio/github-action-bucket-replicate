@@ -5,7 +5,7 @@ test('replicate bucket', async () => {
   expect(bucket).toEqual('jekyll-ipfs-blog');
   const cid = process.env.cid;
   const pinata_name = process.env.pinata_name || 'textile_bucket_ci';
-  const jobId = `${(new Date()).getDate()}`;
+  const jobId = `${(new Date()).getTime()}`;
 
   const pinata_key = process.env.pinata_key;
   const pinata_secret = process.env.pinata_secret;

@@ -12,7 +12,7 @@ try {
 
   // const unpin = core.getInput('unpin');
 
-  const jobId = `${(new Date()).getDate()}`;
+  const jobId = `${(new Date()).getTime()}`;
 
   // todo: add textile host_nodes multiaddress
   const options = {
