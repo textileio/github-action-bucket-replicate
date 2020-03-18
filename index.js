@@ -9,7 +9,7 @@ const run = () => {
 
 
   const bucket = `${core.getInput('bucket')}`;
-  const pinata_name = core.getInput('pinata_name');
+  const pinata_name = `${core.getInput('pinata_name') || 'textile_bucket'}`;
 
   // const unpin = core.getInput('unpin');
 
@@ -17,14 +17,16 @@ const run = () => {
 
   // todo: add textile host_nodes multiaddress
   const options = {
+    name: pinata_name,
     pinataMetadata: {
-        name: pinata_name,
         keyvalues: {
             bucket: bucket,
             commit: commit
         }
     }
   };
+
+  console.log(options)
 
   addPin(cid, options, pinata_key, pinata_secret).then((result) => {
     return result
