@@ -35,15 +35,26 @@ jobs:
   integration:
     runs-on: ubuntu-latest
     name: Runs the real action
+    env:
+      BUCKET_NAME: 'test-ci-bucket'
     steps:
       # To use this repository's private action, you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Bucket push action
+        id: push
+        uses: textileio/github-action-bucket-push@master
+        with:
+          bucket-name: '${{ env.BUCKET_NAME }}'
+          path: 'dist/*'
+          token: ${{ secrets.TEXTILE_AUTH_TOKEN }}
+          
       - name: Bucket Replication
         uses: ./ # Uses an action in the root directory
         id: replicate
         with:
-          cid: 'Qmd5bRvbhJCCpU7eyQEcqPE99sKszjbUKzCYMziwqPbG91'
+          cid: ${{ steps.push.outputs.cid }}
           bucket: 'gatsby-ipfs-blog'
           pinata_key: ${{ secrets.PINATA_KEY }}
           pinata_secret: ${{ secrets.PINATA_SECRET }}

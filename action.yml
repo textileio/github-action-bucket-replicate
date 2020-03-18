@@ -1,5 +1,5 @@
-name: 'Replicate Textile Bucket on Pinata'
-description: 'Greet someone and record the time'
+name: 'Textile Bucket Replication on Pinata'
+description: 'Textile Buckets are automatically pinned by Textile. If you want additional network replication, this action will pin your Bucket changes to Pinata. You must run this action in conjunction with the Bucket Publish action.'
 inputs:
   cid:  # cid to pin
     description: 'CID output from Textile Bucket'
