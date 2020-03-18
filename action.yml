@@ -1,5 +1,8 @@
 name: 'Textile Bucket Replication on Pinata'
 description: 'Textile Buckets are automatically pinned by Textile. This provides additional network replication.'
+branding:
+  icon: 'type'  
+  color: 'blue'
 inputs:
   cid:  # cid to pin
     description: 'CID output from Textile Bucket'
