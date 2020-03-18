@@ -12,7 +12,8 @@ test('get options', async() => {
 test('replicate bucket', async() => {
   const cid = core.getInput('cid');
   const options = getOptions();
-  expect(function() {
-    addPin(cid, options)
-  }).not.toThrow();
+
+  expect.assertions(1);
+  return addPin(cid, options)
+    .then(result => expect(result.id).toNotEqual(''));
 });

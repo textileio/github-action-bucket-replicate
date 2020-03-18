@@ -9,6 +9,7 @@ const addPin = async (cid, options) => {
       //handle results here
       console.log(result);
       core.setOutput("pinata_id", result.id);
+      return result;
   })
 };
 
