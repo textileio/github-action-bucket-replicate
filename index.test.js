@@ -3,8 +3,8 @@ const github = require('@actions/github');
 const addPin = require('./addPin');
 const listPins = require('./listPins');
 
-test('replicate bucket', () => {
-  expect.assertions(2);
+test('replicate bucket', async () => {
+  expect.assertions(3);
   const bucket = `${process.env.bucket}`;
   expect(bucket).toEqual('jekyll-ipfs-blog');
   const cid = process.env.cid;
@@ -23,8 +23,10 @@ test('replicate bucket', () => {
     }
   };
 
-  return addPin(cid, options, pinata_key, pinata_secret)
-    .then(() => listPins(bucket, commit, pinata_key, pinata_secret).then((pinList) => {
+  const job = await addPin(cid, options, pinata_key, pinata_secret);
+  expect(job).toNotEqual('');
+
+  return listPins(bucket, commit, pinata_key, pinata_secret).then((pinList) => {
     return expect(pinList.length).toEqual(11110);
-  }))
+  })
 });
