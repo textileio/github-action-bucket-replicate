@@ -4,7 +4,6 @@ const listPins = async (bucket, commit, pinata_key, pinata_secret) => {
   const pinata = pinataSDK(pinata_key, pinata_secret);
 
   const filters = {
-    status: 'pinned',
     metadata: {
       keyvalues: {
         bucket: {
