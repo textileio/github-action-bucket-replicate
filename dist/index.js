@@ -388,6 +388,13 @@ module.exports._enoent = enoent;
 
 /***/ }),
 
+/***/ 34:
+/***/ (function(module) {
+
+module.exports = require("https");
+
+/***/ }),
+
 /***/ 39:
 /***/ (function(module) {
 
@@ -489,20 +496,40 @@ module.exports = require("os");
 /***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470);
+const github = __webpack_require__(469);
 const addPin = __webpack_require__(947);
-const getOptions = __webpack_require__(805);
 
-const run = () => {
+try {
   const cid = core.getInput('cid');
   const pinata_key = core.getInput('pinata_key');
   const pinata_secret = core.getInput('pinata_secret');
-  const options = getOptions();
+
+
+  const bucket = `${core.getInput('bucket')}`;
+  const pinata_name = `${core.getInput('pinata_name') || 'textile_bucket'}`;
+
+  // const unpin = core.getInput('unpin');
+
+  const commit = `${github.context.payload.head}`;
+
+  // todo: add textile host_nodes multiaddress
+  const options = {
+    name: pinata_name,
+    pinataMetadata: {
+        keyvalues: {
+            bucket: bucket,
+            commit: commit
+        }
+    }
+  };
+
+  console.log(options)
   addPin(cid, options, pinata_key, pinata_secret).then((result) => {
     return result
-  });
+  })
+} catch (error) {
+  core.setFailed(error.message);
 }
-
-run();
 
 
 /***/ }),
@@ -1466,7 +1493,7 @@ module.exports = require("child_process");
 var net = __webpack_require__(631);
 var tls = __webpack_require__(16);
 var http = __webpack_require__(605);
-var https = __webpack_require__(211);
+var https = __webpack_require__(34);
 var events = __webpack_require__(614);
 var assert = __webpack_require__(357);
 var util = __webpack_require__(669);
@@ -1890,7 +1917,7 @@ const { Deprecation } = __webpack_require__(692);
 const once = __webpack_require__(969);
 
 const beforeRequest = __webpack_require__(863);
-const requestError = __webpack_require__(991);
+const requestError = __webpack_require__(293);
 const validate = __webpack_require__(954);
 const withAuthorizationPrefix = __webpack_require__(143);
 
@@ -2012,9 +2039,32 @@ function checkMode (stat, options) {
 /***/ }),
 
 /***/ 211:
-/***/ (function(module) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
-module.exports = require("https");
+"use strict";
+
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var osName = _interopDefault(__webpack_require__(2));
+
+function getUserAgent() {
+  try {
+    return `Node.js/${process.version.substr(1)} (${osName()}; ${process.arch})`;
+  } catch (error) {
+    if (/wmic os get Caption/.test(error.message)) {
+      return "Windows <version undetectable>";
+    }
+
+    return "<environment undetectable>";
+  }
+}
+
+exports.getUserAgent = getUserAgent;
+//# sourceMappingURL=index.js.map
+
 
 /***/ }),
 
@@ -3778,9 +3828,70 @@ function coerce (version) {
 /***/ }),
 
 /***/ 293:
-/***/ (function(module) {
+/***/ (function(module, __unusedexports, __webpack_require__) {
 
-module.exports = require("buffer");
+module.exports = authenticationRequestError;
+
+const { RequestError } = __webpack_require__(463);
+
+function authenticationRequestError(state, error, options) {
+  if (!error.headers) throw error;
+
+  const otpRequired = /required/.test(error.headers["x-github-otp"] || "");
+  // handle "2FA required" error only
+  if (error.status !== 401 || !otpRequired) {
+    throw error;
+  }
+
+  if (
+    error.status === 401 &&
+    otpRequired &&
+    error.request &&
+    error.request.headers["x-github-otp"]
+  ) {
+    if (state.otp) {
+      delete state.otp; // no longer valid, request again
+    } else {
+      throw new RequestError(
+        "Invalid one-time password for two-factor authentication",
+        401,
+        {
+          headers: error.headers,
+          request: options
+        }
+      );
+    }
+  }
+
+  if (typeof state.auth.on2fa !== "function") {
+    throw new RequestError(
+      "2FA required, but options.on2fa is not a function. See https://github.com/octokit/rest.js#authentication",
+      401,
+      {
+        headers: error.headers,
+        request: options
+      }
+    );
+  }
+
+  return Promise.resolve()
+    .then(() => {
+      return state.auth.on2fa();
+    })
+    .then(oneTimePassword => {
+      const newOptions = Object.assign(options, {
+        headers: Object.assign(options.headers, {
+          "x-github-otp": oneTimePassword
+        })
+      });
+      return state.octokit.request(newOptions).then(response => {
+        // If OTP still valid, then persist it for following requests
+        state.otp = oneTimePassword;
+        return response;
+      });
+    });
+}
+
 
 /***/ }),
 
@@ -4816,36 +4927,6 @@ module.exports = readShebang;
 
 /***/ }),
 
-/***/ 392:
-/***/ (function(__unusedmodule, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var osName = _interopDefault(__webpack_require__(2));
-
-function getUserAgent() {
-  try {
-    return `Node.js/${process.version.substr(1)} (${osName()}; ${process.arch})`;
-  } catch (error) {
-    if (/wmic os get Caption/.test(error.message)) {
-      return "Windows <version undetectable>";
-    }
-
-    return "<environment undetectable>";
-  }
-}
-
-exports.getUserAgent = getUserAgent;
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
 /***/ 402:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -4879,6 +4960,13 @@ function Octokit(plugins, options) {
   return api;
 }
 
+
+/***/ }),
+
+/***/ 407:
+/***/ (function(module) {
+
+module.exports = require("buffer");
 
 /***/ }),
 
@@ -5137,7 +5225,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var Stream = _interopDefault(__webpack_require__(413));
 var http = _interopDefault(__webpack_require__(605));
 var Url = _interopDefault(__webpack_require__(835));
-var https = _interopDefault(__webpack_require__(211));
+var https = _interopDefault(__webpack_require__(34));
 var zlib = _interopDefault(__webpack_require__(761));
 
 // Based on https://github.com/tmpvar/jsdom/blob/aa85b2abf07766ff7bf5c1f6daafb3726f2f2db5/lib/jsdom/living/blob.js
@@ -7460,7 +7548,7 @@ function hasFirstPage (link) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const url = __webpack_require__(835);
 const http = __webpack_require__(605);
-const https = __webpack_require__(211);
+const https = __webpack_require__(34);
 const pm = __webpack_require__(950);
 let tunnel;
 var HttpCodes;
@@ -31377,7 +31465,7 @@ module.exports = __webpack_require__(357);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = __webpack_require__(293);
+module.exports = __webpack_require__(407);
 
 /***/ }),
 
@@ -31410,7 +31498,7 @@ module.exports = __webpack_require__(605);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = __webpack_require__(211);
+module.exports = __webpack_require__(34);
 
 /***/ }),
 
@@ -31836,7 +31924,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var endpoint = __webpack_require__(385);
-var universalUserAgent = __webpack_require__(392);
+var universalUserAgent = __webpack_require__(211);
 var isPlainObject = _interopDefault(__webpack_require__(696));
 var nodeFetch = _interopDefault(__webpack_require__(454));
 var requestError = __webpack_require__(463);
@@ -32075,38 +32163,6 @@ function getUserAgent() {
 
 exports.getUserAgent = getUserAgent;
 //# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ 805:
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-const core = __webpack_require__(470);
-const github = __webpack_require__(469);
-
-const getOptions = () => {
-  const bucket = core.getInput('bucket');
-  const pinata_name = core.getInput('pinata_name');
-
-  // const unpin = core.getInput('unpin');
-
-  const commit = github.context.payload.head;
-
-  // todo: add textile host_nodes multiaddress
-  const options = {
-    pinataMetadata: {
-        name: pinata_name,
-        keyvalues: {
-            bucket: bucket,
-            commit: commit
-        }
-    }
-  };
-  return options
-}
-
-module.exports = getOptions;
 
 
 /***/ }),
@@ -47869,13 +47925,11 @@ function hasNextPage (link) {
 /***/ 947:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
-const core = __webpack_require__(470);
 const pinataSDK = __webpack_require__(645);
 
 const addPin = async (cid, options, pinata_key, pinata_secret) => {
   const pinata = pinataSDK(pinata_key, pinata_secret);
   const result = await pinata.addHashToPinQueue(cid, options);
-  core.setOutput("pinata_id", result.id);
   return result.id;
 };
 
@@ -48469,74 +48523,6 @@ function onceStrict (fn) {
   f.onceError = name + " shouldn't be called more than once"
   f.called = false
   return f
-}
-
-
-/***/ }),
-
-/***/ 991:
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-module.exports = authenticationRequestError;
-
-const { RequestError } = __webpack_require__(463);
-
-function authenticationRequestError(state, error, options) {
-  if (!error.headers) throw error;
-
-  const otpRequired = /required/.test(error.headers["x-github-otp"] || "");
-  // handle "2FA required" error only
-  if (error.status !== 401 || !otpRequired) {
-    throw error;
-  }
-
-  if (
-    error.status === 401 &&
-    otpRequired &&
-    error.request &&
-    error.request.headers["x-github-otp"]
-  ) {
-    if (state.otp) {
-      delete state.otp; // no longer valid, request again
-    } else {
-      throw new RequestError(
-        "Invalid one-time password for two-factor authentication",
-        401,
-        {
-          headers: error.headers,
-          request: options
-        }
-      );
-    }
-  }
-
-  if (typeof state.auth.on2fa !== "function") {
-    throw new RequestError(
-      "2FA required, but options.on2fa is not a function. See https://github.com/octokit/rest.js#authentication",
-      401,
-      {
-        headers: error.headers,
-        request: options
-      }
-    );
-  }
-
-  return Promise.resolve()
-    .then(() => {
-      return state.auth.on2fa();
-    })
-    .then(oneTimePassword => {
-      const newOptions = Object.assign(options, {
-        headers: Object.assign(options.headers, {
-          "x-github-otp": oneTimePassword
-        })
-      });
-      return state.octokit.request(newOptions).then(response => {
-        // If OTP still valid, then persist it for following requests
-        state.otp = oneTimePassword;
-        return response;
-      });
-    });
 }
 
 
