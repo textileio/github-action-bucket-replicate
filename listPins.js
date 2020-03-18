@@ -19,7 +19,7 @@ const listPins = async (bucket, commit, pinata_key, pinata_secret) => {
     }
   }
 
-  console.log(filters);
+  console.log(JSON.stringify(filters));
 
   return pinata.pinList(filters)
 };
