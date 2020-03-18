@@ -43,8 +43,8 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: replicate
         with:
-          cid: 'QmPLxsffBZDY1FY36vhvsMx1Mz4qNSTdeXuMqohVEhQ4Nb'
-          bucket: 'jekyll-ipfs-blog'
+          cid: 'Qmd5bRvbhJCCpU7eyQEcqPE99sKszjbUKzCYMziwqPbG91'
+          bucket: 'gatsby-ipfs-blog'
           pinata_key: ${{ secrets.PINATA_KEY }}
           pinata_secret: ${{ secrets.PINATA_SECRET }}
           pinata_name: 'ci-test-pin'
