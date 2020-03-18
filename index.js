@@ -7,7 +7,7 @@ const run = () => {
   const pinata_key = core.getInput('pinata_key');
   const pinata_secret = core.getInput('pinata_secret');
   const options = getOptions();
-  return addPin(cid, options, pinata_key, pinata_secret).then((result) => {
+  addPin(cid, options, pinata_key, pinata_secret).then((result) => {
     return result
   });
 }

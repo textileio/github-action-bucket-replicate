@@ -16,9 +16,6 @@ inputs:
   pinata_name: 
     description: 'Optional name of pin request in Pinata'
     required: false
-  unpin: # unpin previous bucket version
-    description: 'Unpin any older version of the Bucket'
-    required: false
 outputs:
   pinata_id: # id of pin job
     description: 'Pinata's ID for the pin job'

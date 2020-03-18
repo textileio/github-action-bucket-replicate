@@ -18,8 +18,6 @@ const listPins = async (bucket, commit, pinata_key, pinata_secret) => {
     metadata: metadataFilter
   };
 
-  console.log(JSON.stringify(filters));
-
   return pinata.pinList(filters)
 };
 
