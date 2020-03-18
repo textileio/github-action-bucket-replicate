@@ -1,5 +1,5 @@
 {
-  "name": "bucket-to-pinata",
+  "name": "replicate-bucket-to-pinata",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
