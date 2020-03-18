@@ -3,18 +3,10 @@ const github = require('@actions/github');
 const addPin = require('./addPin');
 const getOptions = require('./getOptions');
 
-test('get options', async() => {
-  const bucket = core.getInput('bucket');
-  const options = getOptions();
-  expect(options.pinataMetadata).toBeTruthy();
-  expect(bucket).toEqual('bucket');
-  expect(options.pinataMetadata.keyvalues.bucket).toEqual(bucket);
-});
-
 test('replicate bucket', () => {
 
   const bucket = process.env.bucket;
-  expect(bucket).toEqual('bucket');
+  expect(bucket).toEqual('jekyll-ipfs-blog');
   const cid = process.env.cid;
   const pinata_name = process.env.pinata_name;
   const commit = github.context.payload.head;
