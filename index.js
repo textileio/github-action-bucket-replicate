@@ -13,7 +13,7 @@ try {
 
   // const unpin = core.getInput('unpin');
 
-  const commit = `${github.context.payload.head}`;
+  const jobId = `${(new Date()).getDate()}`;
 
   // todo: add textile host_nodes multiaddress
   const options = {
@@ -21,7 +21,7 @@ try {
     pinataMetadata: {
         keyvalues: {
             bucket: bucket,
-            commit: commit
+            jobId: jobId
         }
     }
   };

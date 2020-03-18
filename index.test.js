@@ -5,7 +5,7 @@ test('replicate bucket', async () => {
   expect(bucket).toEqual('jekyll-ipfs-blog');
   const cid = process.env.cid;
   const pinata_name = process.env.pinata_name || 'textile_bucket_ci';
-  const commit = `${(new Date()).getDate()}`;
+  const jobId = `${(new Date()).getDate()}`;
 
   const pinata_key = process.env.pinata_key;
   const pinata_secret = process.env.pinata_secret;
@@ -14,13 +14,13 @@ test('replicate bucket', async () => {
     pinataMetadata: {
         keyvalues: {
             bucket: bucket,
-            commit: commit
+            jobId: jobId
         }
     }
   };
 
   // todo: add ability to unpin old buckets
-  // const pinList = await listPins(bucket, commit, pinata_key, pinata_secret);
+  // const pinList = await listPins(bucket, jobId, pinata_key, pinata_secret);
   // console.log(pinList)
   // expect(pinList.count).toEqual(1)
 

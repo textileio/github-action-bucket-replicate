@@ -1,8 +1,7 @@
 const pinataSDK = require('@pinata/sdk');
 
-const listPins = async (bucket, commit, pinata_key, pinata_secret) => {
+const listPins = async (bucket, jobId, pinata_key, pinata_secret) => {
   const pinata = pinataSDK(pinata_key, pinata_secret);
-
 
   const metadataFilter = {
     keyvalues: {
