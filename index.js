@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const addPin = require('./addPin');
 
-const run = () => {
+try {
   const cid = core.getInput('cid');
   const pinata_key = core.getInput('pinata_key');
   const pinata_secret = core.getInput('pinata_secret');
@@ -27,13 +27,9 @@ const run = () => {
   };
 
   console.log(options)
-  try {
-    addPin(cid, options, pinata_key, pinata_secret).then((result) => {
-      return result
-    })
-  } catch (error) {
-    console.log(error.message);
-  }
+  addPin(cid, options, pinata_key, pinata_secret).then((result) => {
+    return result
+  })
+} catch (error) {
+  core.setFailed(error.message);
 }
-
-run();
