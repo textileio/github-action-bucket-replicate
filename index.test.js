@@ -3,7 +3,7 @@ const github = require('@actions/github');
 const addPin = require('./addPin');
 
 test('replicate bucket', () => {
-
+  expect.assertions(2);
   const bucket = `${process.env.bucket}`;
   expect(bucket).toEqual('jekyll-ipfs-blog');
   const cid = process.env.cid;
@@ -21,6 +21,5 @@ test('replicate bucket', () => {
         }
     }
   };
-  expect.assertions(1);
   return expect(addPin(cid, pinata_key, pinata_secret, options)).resolves.not.toEqual('');
 });
