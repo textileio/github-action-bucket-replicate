@@ -1,7 +1,7 @@
 {
   "name": "replicate-bucket-to-pinata",
   "version": "1.0.0",
-  "description": "",
+  "description": "Replicate a Textile Bucket using Pinata",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
