@@ -5,18 +5,18 @@ const listPins = async (bucket, commit, pinata_key, pinata_secret) => {
 
   const filters = {
     status: 'pinned',
-    metadata: {
+    metadata: JSON.stringify({
       keyvalues: {
         bucket: {
-              value: bucket,
-              op: 'eq'
+            value: bucket,
+            op: 'eq'
           },
-          commit: {
-              value: commit,
-              op: 'ne'
-          }
+        commit: {
+            value: commit,
+            op: 'ne'
+        }
       }
-    }
+    })
   }
 
   return pinata.pinList(filters)
