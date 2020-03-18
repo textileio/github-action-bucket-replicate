@@ -4,7 +4,7 @@
   "description": "Replicate a Textile Bucket using Pinata",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint index.js && jest"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +13,10 @@
     "@actions/core": "^1.2.3",
     "@actions/github": "^2.1.1",
     "@pinata/sdk": "^1.1.5"
+  },
+  "devDependencies": {
+    "child_process": "^1.0.2",
+    "eslint": "^6.3.0",
+    "jest": "^24.9.0"
   }
 }
