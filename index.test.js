@@ -1,4 +1,3 @@
-const core = require('@actions/core');
 const github = require('@actions/github');
 const addPin = require('./addPin');
 const listPins = require('./listPins');
