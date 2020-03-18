@@ -4,7 +4,6 @@ const addPin = require('./addPin');
 const listPins = require('./listPins');
 
 test('replicate bucket', async () => {
-  expect.assertions(3);
   const bucket = `${process.env.bucket}`;
   expect(bucket).toEqual('jekyll-ipfs-blog');
   const cid = process.env.cid;
@@ -25,7 +24,6 @@ test('replicate bucket', async () => {
   const job = await addPin(cid, options, pinata_key, pinata_secret);
   expect(job).not.toEqual('');
 
-  return listPins(bucket, commit, pinata_key, pinata_secret).then((pinList) => {
-    return expect(pinList.length).toEqual(11110);
-  })
+  const pinList = await listPins(bucket, commit, pinata_key, pinata_secret);
+  expect(pinList.length).toEqual(11110)
 });
