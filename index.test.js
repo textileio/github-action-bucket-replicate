@@ -1,9 +1,10 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const addPin = require('./addPin');
+const listPins = require('./listPins');
 
 test('replicate bucket', () => {
-  expect.assertions(3);
+  expect.assertions(2);
   const bucket = `${process.env.bucket}`;
   expect(bucket).toEqual('jekyll-ipfs-blog');
   const cid = process.env.cid;
