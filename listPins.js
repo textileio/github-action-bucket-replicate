@@ -5,7 +5,7 @@ const listPins = async (bucket, commit, pinata_key, pinata_secret) => {
 
   const filters = {
     status: 'pinned',
-    metadata: JSON.stringify({
+    metadata: {
       keyvalues: {
         bucket: {
             value: bucket,
@@ -16,11 +16,11 @@ const listPins = async (bucket, commit, pinata_key, pinata_secret) => {
             op: 'ne'
         }
       }
-    })
+    }
   }
 
   console.log(filters);
-  
+
   return pinata.pinList(filters)
 };
 
