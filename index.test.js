@@ -6,6 +6,7 @@ test('get options', async() => {
   const bucket = core.getInput('bucket');
   const options = getOptions();
   expect(options.pinataMetadata).toBeTruthy();
+  expect(bucket).toEqual('bucket');
   expect(options.pinataMetadata.keyvalues.bucket).toEqual(bucket);
 });
 
