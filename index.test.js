@@ -23,7 +23,7 @@ test('replicate bucket', async () => {
   };
 
   const job = await addPin(cid, options, pinata_key, pinata_secret);
-  expect(job).toNotEqual('');
+  expect(job).not.toEqual('');
 
   return listPins(bucket, commit, pinata_key, pinata_secret).then((pinList) => {
     return expect(pinList.length).toEqual(11110);

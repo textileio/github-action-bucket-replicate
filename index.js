@@ -7,11 +7,7 @@ const run = () => {
   const pinata_key = core.getInput('pinata_key');
   const pinata_secret = core.getInput('pinata_secret');
   const options = getOptions();
-  addPin(cid, options, pinata_key, pinata_secret)
-  .catch((err) => {
-    //handle error here
-    console.log(err);
-  });
+  await addPin(cid, options, pinata_key, pinata_secret);
 }
 
 run();
