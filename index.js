@@ -30,6 +30,8 @@ const run = () => {
 
   addPin(cid, options, pinata_key, pinata_secret).then((result) => {
     return result
+  }).catch((error) => {
+    console.log(error.message);
   });
 }
 
