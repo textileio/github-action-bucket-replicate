@@ -23,8 +23,8 @@ test('replicate bucket', async () => {
 
   const pinList = await listPins(bucket, commit, pinata_key, pinata_secret);
   console.log(pinList)
-  expect(pinList.count).toEqual(11110)
-  
+  expect(pinList.count).toEqual(1)
+
   const job = await addPin(cid, options, pinata_key, pinata_secret);
   expect(job).not.toEqual('');
 
